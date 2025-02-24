@@ -22,6 +22,3 @@ resource "aws_route_table_association" "test_rt_association" {
   route_table_id = lookup(lookup(aws_route_table.test_rt, each.key, null ), "id", null)
 
 }
-output "route" {
-  value = aws_route_table.test_rt
-}
