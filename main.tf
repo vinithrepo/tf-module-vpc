@@ -1,8 +1,6 @@
 resource "aws_vpc" "main" {
   cidr_block = var.cidr
-  tags = {
-    Name = "main"
-  }
+
 }
 module "subnets" {
   source = "./subnets"
@@ -17,4 +15,9 @@ resource "aws_internet_gateway" "igw" {
   tags = {
     Name = "main"
   }
+}
+
+
+output "subnets" {
+  value = module.subnets
 }
