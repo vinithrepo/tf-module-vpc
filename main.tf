@@ -29,7 +29,7 @@ resource "aws_route" "igw" {
 resource "aws_eip" "ngw" {
   #for_each = lookup(lookup(module.subnets, "public", null), "subnet_ids", null)
   #domain   = "vpc"
-  for_each = local.public_subnet_ids
+  count = local.public_subnet_ids
   domain = "vpc"
 }
 resource "aws_nat_gateway" "ngw" {
