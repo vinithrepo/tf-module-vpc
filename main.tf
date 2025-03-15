@@ -26,6 +26,7 @@ resource "aws_route" "igw" {
   destination_cidr_block = "0.0.0.0/0"
   gateway_id = aws_internet_gateway.igw.id
 }
+ # in below block i used count_length because given input as list (locals input coming as list)
 resource "aws_eip" "ngw" {
   #for_each = lookup(lookup(module.subnets, "public", null), "subnet_ids", null)
   #domain   = "vpc"
