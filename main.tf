@@ -10,6 +10,7 @@ module "subnets" {
   subnets  = each.value
   vpc_id   = aws_vpc.main.id
   tags = local.tags
+  env = var.env
 }
 
 resource "aws_internet_gateway" "igw" {
@@ -72,33 +73,5 @@ resource "aws_route" "default-vpc-peer-entry" {
   vpc_peering_connection_id = aws_vpc_peering_connection.peering.id
 }
 
-resource "aws_instance" "ec2" {
-  ami                    = "ami-0b4f379183e5706b9"
-  instance_type          = "t3.micro"
-  vpc_security_group_ids = [aws_security_group.allow_tls.id]
-  subnet_id              = local.app_subnet_ids[0]
-}
 
-resource "aws_security_group" "allow_tls" {
-  name        = "allow_tls"
-  description = "Allow TLS inbound traffic and all outbound traffic"
-  vpc_id      = aws_vpc.main.id
-
-  ingress {
-    description = "TLS from VPC"
-    from_port   = 22
-    protocol    = "tcp"
-    to_port     = 22
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-  egress {
-    from_port   = 0
-    protocol    = "-1"
-    to_port     = 0
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-  tags = {
-    Name = "allow_tls"
-  }
-}
 
